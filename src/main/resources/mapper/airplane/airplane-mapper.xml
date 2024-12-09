@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.hash.airplaneAPI.airplane.api.mapper.AirplaneAPIMapper">
+
+    <select id="checkAirplaneInfo" parameterType="HashMap" resultType="int">
+        SELECT COUNT(FLIGHT_ID) AS CNT
+          FROM AIRPLANE_DEFT_STATUS_INFO_TB
+         WHERE FLIGHT_ID = #{flightId}
+           AND DATE_FORMAT(REG_DATE_TIME, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+    </select>
+
+    <select id="getAirplaneList" resultType="HashMap">
+        SELECT   FLIGHT_SN
+               , FLIGHT_ID
+               , MASTERFLIGHT_ID
+               , AIRLINE
+               , GATENUMBER
+               , AIRPORT_CODE
+               , AIRPORT
+               , CITY_CODE
+               , TERMINAL_ID
+               , CHKINRANGE
+               , ELAPSETIME
+               , REMARK
+               , TYPE_OF_FLIGHT
+               , SCHEDULE_DATE_TIME
+               , ESTIMATED_DATE_TIME
+               , CODESHARE
+               , REG_DATE_TIME
+               , FIRSTOPOVER
+               , SECSTOPOVER
+               , THISTOPOVER
+               , FOUSTOPOVER
+               , FIFSTOPOVER
+               , SIXSTOPOVER
+               , SEVSTOPOVER
+               , EIGSTOPOVER
+               , NINSTOPOVER
+               , TENSTOPOVER
+               , FIRSTOPOVERNAME
+               , SECSTOPOVERNAME
+               , THISTOPOVERNAME
+               , FOUSTOPOVERNAME
+               , FIFSTOPOVERNAME
+               , SIXSTOPOVERNAME
+               , SEVSTOPOVERNAME
+               , EIGSTOPOVERNAME
+               , NINSTOPOVERNAME
+               , TENSTOPOVERNAME
+          FROM AIRPLANE_DEFT_STATUS_INFO_TB
+    </select>
+
+    <insert id="saveAirplaneInfo" parameterType="HashMap">
+        INSERT INTO AIRPLANE_DEFT_STATUS_INFO_TB(
+                  FLIGHT_ID
+                , MASTERFLIGHT_ID
+                , AIRLINE
+                , GATENUMBER
+                , AIRPORT_CODE
+                , AIRPORT
+                , CITY_CODE
+                , TERMINAL_ID
+                , CHKINRANGE
+                , ELAPSETIME
+                , REMARK
+                , TYPE_OF_FLIGHT
+                , SCHEDULE_DATE_TIME
+                , ESTIMATED_DATE_TIME
+                , CODESHARE
+                , REG_DATE_TIME
+                , FIRSTOPOVER
+                , SECSTOPOVER
+                , THISTOPOVER
+                , FOUSTOPOVER
+                , FIFSTOPOVER
+                , SIXSTOPOVER
+                , SEVSTOPOVER
+                , EIGSTOPOVER
+                , NINSTOPOVER
+                , TENSTOPOVER
+                , FIRSTOPOVERNAME
+                , SECSTOPOVERNAME
+                , THISTOPOVERNAME
+                , FOUSTOPOVERNAME
+                , FIFSTOPOVERNAME
+                , SIXSTOPOVERNAME
+                , SEVSTOPOVERNAME
+                , EIGSTOPOVERNAME
+                , NINSTOPOVERNAME
+                , TENSTOPOVERNAME
+        )VALUES(
+                #{flightId},
+                #{masterflightid},
+                #{airline},
+                #{gatenumber},
+                #{airportCode},
+                #{airport},
+                #{cityCode},
+                #{terminalId},
+                #{chkinrange},
+                #{elapsetime},
+                #{remark},
+                #{typeOfFlight},
+                #{scheduleDateTime},
+                #{estimatedDateTime},
+                #{codeshare},
+                NOW(),
+                #{firstopover},
+                #{secstopover},
+                #{thistopover},
+                #{foustopover},
+                #{fifstopover},
+                #{sixstopover},
+                #{sevstopover},
+                #{eigstopover},
+                #{ninstopover},
+                #{tenstopover},
+                #{firstopovername},
+                #{secstopovername},
+                #{thistopovername},
+                #{foustopovername},
+                #{fifstopovername},
+                #{sixstopovername},
+                #{sevstopovername},
+                #{eigstopovername},
+                #{ninstopovername},
+                #{tenstopovername}
+        )
+    </insert>
+
+    <select id="selectSchedulerInfoUseYnCheck" parameterType="String" resultType="String">
+        SELECT USE_YN
+          FROM SCHDUL_INFO
+         WHERE SCHDUL_CD = #{schdulCd}
+    </select>
+
+</mapper>
