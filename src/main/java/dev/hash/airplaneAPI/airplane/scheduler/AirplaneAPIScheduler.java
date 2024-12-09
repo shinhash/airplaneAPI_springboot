@@ -28,7 +28,7 @@ public class AirplaneAPIScheduler {
     private AirplaneAPIService airplaneAPIService;
 
     @Scheduled(cron="0 10 0 * * *")
-    public void airPlainScheduler() throws Exception {
+    public void airPlaneScheduler() throws Exception {
         String schdulCd = "SJ002";
 
         String useYn = airplaneAPIService.selectSchedulerInfoUseYnCheck(schdulCd);
