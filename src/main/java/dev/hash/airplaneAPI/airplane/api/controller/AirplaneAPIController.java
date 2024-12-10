@@ -1,26 +1,18 @@
 package dev.hash.airplaneAPI.airplane.api.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.hash.airplaneAPI.airplane.api.service.AirplaneAPIService;
+import dev.hash.airplaneAPI.airplane.utils.AirplaneAPIUtils;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-@SuppressWarnings({"unchecked"})
 @RestController
 public class AirplaneAPIController {
 
@@ -37,27 +29,8 @@ public class AirplaneAPIController {
 
     @PostMapping(value="/saveAirplaneList.do")
     public Map<String, String> saveAirplaneList() throws Exception {
-        InputStream inputStream = getClass().getResourceAsStream("/prop/api/apiValues.properties");
-        String apiUrl = "";
-        if(inputStream != null) {
-            Reader reader = new InputStreamReader(inputStream);
-            Properties properties = new Properties();
-            properties.load(reader);
-            apiUrl = properties.getProperty("api.airplane.url") + "?" + properties.getProperty("api.airplane.key") + "&" + properties.getProperty("api.airplane.returnType");
-            apiUrl += "&from_time=0900&to_time=1000";
-        }
-        LOGGER.info("apiUrl : {}", apiUrl);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> apiResp = restTemplate.getForEntity(apiUrl, String.class);
-        LOGGER.info("JSONObject result : {}", apiResp.getBody());
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>(){};
-        Map<String, Object> apiResult = objectMapper.readValue(apiResp.getBody(), typeReference);
-        LOGGER.info("ObjectMapper result : {}", apiResult);
-
-        Map<String, String> apiDataSaveRst = airplaneAPIService.saveAirplaneList((Map<String, Object>)apiResult.get("response"));
+        Map<String, Object> responseMap = new AirplaneAPIUtils().getAirplaneAPIResponse();
+        Map<String, String> apiDataSaveRst = airplaneAPIService.saveAirplaneList(responseMap);
         LOGGER.info("apiDataSaveRst : {}", apiDataSaveRst);
         return apiDataSaveRst;
     }
