@@ -4,12 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.hash.airplaneAPI.airplane.api.service.AirplaneAPIService;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +21,6 @@ import java.util.Map;
 import java.util.Properties;
 
 @SuppressWarnings({"unchecked"})
-@Slf4j
 @RestController
 public class AirplaneAPIController {
 
@@ -31,13 +29,13 @@ public class AirplaneAPIController {
     @Resource(name="airplaneAPIService")
     private AirplaneAPIService airplaneAPIService;
 
-    @RequestMapping(value="/index.do")
+    @GetMapping(value="/index.do")
     public ModelAndView index(ModelAndView modelAndView) throws Exception {
         modelAndView.setViewName("api/index");
         return modelAndView;
     }
 
-    @RequestMapping(value="/saveAirplaneList.do", method={RequestMethod.POST})
+    @PostMapping(value="/saveAirplaneList.do")
     public Map<String, String> saveAirplaneList() throws Exception {
         InputStream inputStream = getClass().getResourceAsStream("/prop/api/apiValues.properties");
         String apiUrl = "";
@@ -64,7 +62,7 @@ public class AirplaneAPIController {
         return apiDataSaveRst;
     }
 
-    @RequestMapping(value="/getAirplaneList.do")
+    @PostMapping(value="/getAirplaneList.do")
     public List<Map<String, Object>> getAirplaneList() throws Exception {
         return airplaneAPIService.getAirplaneList();
     }
