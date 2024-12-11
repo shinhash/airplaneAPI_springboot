@@ -6,7 +6,7 @@
         SELECT COUNT(FLIGHT_ID) AS CNT
           FROM AIRPLANE_DEFT_STATUS_INFO_TB
          WHERE FLIGHT_ID = #{flightId}
-           AND DATE_FORMAT(REG_DATE_TIME, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+           AND DATE_FORMAT(REG_DT, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
     </select>
 
     <select id="getAirplaneList" resultType="HashMap">
@@ -26,7 +26,7 @@
                , SCHEDULE_DATE_TIME
                , ESTIMATED_DATE_TIME
                , CODESHARE
-               , REG_DATE_TIME
+               , REG_DT
                , FIRSTOPOVER
                , SECSTOPOVER
                , THISTOPOVER
@@ -67,7 +67,7 @@
                 , SCHEDULE_DATE_TIME
                 , ESTIMATED_DATE_TIME
                 , CODESHARE
-                , REG_DATE_TIME
+                , REG_DT
                 , FIRSTOPOVER
                 , SECSTOPOVER
                 , THISTOPOVER
