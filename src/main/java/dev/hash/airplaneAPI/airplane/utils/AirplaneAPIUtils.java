@@ -21,7 +21,7 @@ public class AirplaneAPIUtils {
 	
 	public Map<String, Object> getAirplaneAPIResponse() throws Exception {
 		InputStream inputStream = getClass().getResourceAsStream("/prop/api/apiValues.properties");
-        StringBuilder apiUrl = new StringBuilder();
+        StringBuffer apiUrl = new StringBuffer();
         if(inputStream != null) {
             Reader reader = new InputStreamReader(inputStream);
             Properties properties = new Properties();
@@ -32,7 +32,7 @@ public class AirplaneAPIUtils {
             apiUrl.append(properties.getProperty("api.airplane.key"));
             apiUrl.append("&");
             apiUrl.append(properties.getProperty("api.airplane.returnType"));
-            apiUrl.append(properties.getProperty("&from_time=0900&to_time=1000"));
+            apiUrl.append("&from_time=0900&to_time=1000");
         }
         LOGGER.info("apiUrl : {}", apiUrl);
 
