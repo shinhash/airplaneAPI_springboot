@@ -1,7 +1,7 @@
-package dev.hash.airplaneAPI.airplane.api.service.impl;
+package dev.hash.airplaneAPI.airplane.api.main.service.impl;
 
-import dev.hash.airplaneAPI.airplane.api.mapper.AirplaneAPIMapper;
-import dev.hash.airplaneAPI.airplane.api.service.AirplaneAPIService;
+import dev.hash.airplaneAPI.airplane.api.main.mapper.AirplaneAPIMainMapper;
+import dev.hash.airplaneAPI.airplane.api.main.service.AirplaneAPIMainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +11,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings({"unchecked"})
-@Service(value="airplaneAPIService")
-public class AirplaneAPIServiceImpl implements AirplaneAPIService {
+@Service(value="airplaneAPIMainService")
+public class AirplaneAPIMainServiceImpl implements AirplaneAPIMainService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private AirplaneAPIMapper airplaneAPIMapper;
+    private AirplaneAPIMainMapper airplaneAPIMainMapper;
 
     @Override
     public List<Map<String, Object>> getAirplaneList() throws Exception {
-        return airplaneAPIMapper.getAirplaneList();
+        return airplaneAPIMainMapper.getAirplaneList();
     }
 
     @Override
@@ -43,10 +42,10 @@ public class AirplaneAPIServiceImpl implements AirplaneAPIService {
         if(apiResultCode.equals("00")) {
             try {
                 for(Map<String, Object> apiResultItemInfo : apiResultItemList) {
-                    int airPlainCtn = airplaneAPIMapper.checkAirplaneInfo(apiResultItemInfo);
+                    int airPlainCtn = airplaneAPIMainMapper.checkAirplaneInfo(apiResultItemInfo);
                     LOGGER.info("airPlainCtn : {}", airPlainCtn);
                     if(airPlainCtn == 0) {
-                        airplaneAPIMapper.saveAirplaneInfo(apiResultItemInfo);
+                    	airplaneAPIMainMapper.saveAirplaneInfo(apiResultItemInfo);
                     }
                 }
                 apiDataSaveRst.put("result", "SUCCESS");
@@ -63,6 +62,6 @@ public class AirplaneAPIServiceImpl implements AirplaneAPIService {
 
     @Override
     public String selectSchedulerInfoUseYnCheck(String schdulCd) throws Exception {
-        return airplaneAPIMapper.selectSchedulerInfoUseYnCheck(schdulCd);
+        return airplaneAPIMainMapper.selectSchedulerInfoUseYnCheck(schdulCd);
     }
 }

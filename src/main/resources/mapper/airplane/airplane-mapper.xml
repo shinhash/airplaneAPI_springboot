@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dev.hash.airplaneAPI.airplane.api.mapper.AirplaneAPIMapper">
+<mapper namespace="dev.hash.airplaneAPI.airplane.api.main.mapper.AirplaneAPIMainMapper">
 
     <select id="checkAirplaneInfo" parameterType="HashMap" resultType="int">
         SELECT COUNT(FLIGHT_ID) AS CNT
-          FROM AIRPLANE_DEFT_STATUS_INFO_TB
+          FROM AIRPLANE_DEFT_STATUS_INFO
          WHERE FLIGHT_ID = #{flightId}
            AND DATE_FORMAT(REG_DT, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
     </select>
@@ -47,11 +47,11 @@
                , EIGSTOPOVERNAME
                , NINSTOPOVERNAME
                , TENSTOPOVERNAME
-          FROM AIRPLANE_DEFT_STATUS_INFO_TB
+          FROM AIRPLANE_DEFT_STATUS_INFO
     </select>
 
     <insert id="saveAirplaneInfo" parameterType="HashMap">
-        INSERT INTO AIRPLANE_DEFT_STATUS_INFO_TB(
+        INSERT INTO AIRPLANE_DEFT_STATUS_INFO(
                   FLIGHT_ID
                 , MASTERFLIGHT_ID
                 , AIRLINE

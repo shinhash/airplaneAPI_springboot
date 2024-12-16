@@ -1,9 +1,9 @@
-package dev.hash.airplaneAPI.airplane.api.service;
+package dev.hash.airplaneAPI.airplane.api.main.service;
 
 import java.util.List;
 import java.util.Map;
 
-public interface AirplaneAPIService {
+public interface AirplaneAPIMainService {
 
     public List<Map<String, Object>> getAirplaneList() throws Exception;
 

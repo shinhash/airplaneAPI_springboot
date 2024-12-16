@@ -1,4 +1,4 @@
-package dev.hash.airplaneAPI.airplane.utils;
+package dev.hash.airplaneAPI.airplane.comm.utils;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,13 +14,12 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SuppressWarnings({"unchecked"})
 public class AirplaneAPIUtils {
 	
-	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+	private static final Logger LOGGER = LoggerFactory.getLogger(AirplaneAPIUtils.class);
 	
-	public Map<String, Object> getAirplaneAPIResponse() throws Exception {
-		InputStream inputStream = getClass().getResourceAsStream("/prop/api/apiValues.properties");
+	public static Map<String, Object> getAirplaneAPIResponse() throws Exception {
+		InputStream inputStream = AirplaneAPIUtils.class.getResourceAsStream("/prop/api/apiValues.properties");
         StringBuffer apiUrl = new StringBuffer();
         if(inputStream != null) {
             Reader reader = new InputStreamReader(inputStream);

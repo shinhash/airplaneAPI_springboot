@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.hash.airplaneAPI.airplane.comm.mapper.AirplaneAPICommMapper">
+
+    <select id="validateList" parameterType="HashMap" resultType="CustomMap">
+        SELECT   COMM_CD
+			   , COMM_NM
+			   , COMM_DETAIL_CD
+			   , COMM_DETAIL_NM
+			   , COMM_DETAIL_CN
+			   , REG_DT
+			   , UPD_DT
+			   , USE_YN
+          FROM AIRPLANE_COMM_INFO
+         WHERE COMM_CD = #{commCd}
+           AND COMM_DETAIL_CD = #{commDetailCd}
+    </select>
+
+</mapper>
