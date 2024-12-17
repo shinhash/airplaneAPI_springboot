@@ -9,5 +9,8 @@ public interface AirplaneAPISignMapper {
 	
 	public Map<String, Object> getUserInfo(String userId) throws Exception;
 
+	public int getIdCheckCnt(String userId) throws Exception;
+
 	public int insertUserInfo(Map<String, Object> receiveJson) throws Exception;
+
 }

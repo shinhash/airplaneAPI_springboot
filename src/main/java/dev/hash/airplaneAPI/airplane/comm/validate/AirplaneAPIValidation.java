@@ -39,8 +39,6 @@ public class AirplaneAPIValidation {
 		for(Map<String, Object> validateMap : validateValueList) {
 			String commDetailCn = (String) validateMap.get("commDetailCn");
 			for(String key : data.keySet()) {
-				LOGGER.info("key : {}", key);
-				LOGGER.info("commDetailCn : {}", commDetailCn);
 				if(commDetailCn.equals(key) && validateMap.get("useYn").equals("Y")) {					
 					if(data.get(key).equals("")) {
 						valRstCd = "FAIL";

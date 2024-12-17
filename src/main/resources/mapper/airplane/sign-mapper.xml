@@ -13,7 +13,13 @@
           FROM AIRPLANE_USER_INFO
          WHERE USER_ID = #{userId}
     </select>
-    
+
+    <select id="getIdCheckCnt" parameterType="String" resultType="int">
+        SELECT COUNT(USER_ID) AS CNT
+          FROM AIRPLANE_USER_INFO
+         WHERE USER_ID = #{userId}
+    </select>
+
     <insert id="insertUserInfo" parameterType="HashMap">
     	INSERT INTO AIRPLANE_USER_INFO(
    			 USER_ID

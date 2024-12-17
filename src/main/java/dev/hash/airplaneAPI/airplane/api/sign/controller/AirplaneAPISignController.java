@@ -26,6 +26,13 @@ public class AirplaneAPISignController {
 		return signInResult;
 	}
 	
+	@PostMapping(value="/airplane/signidchk")
+	public Map<String, Object> airplaneAPISignIdChk(@RequestBody Map<String, Object> receiveJson) throws Exception {
+		LOGGER.info("receiveJson : {}", receiveJson);
+		Map<String, Object> signUpResult = airplaneAPISignService.signIdCheck(receiveJson);
+		return signUpResult;
+	}
+	
 	@PostMapping(value="/airplane/signup")
 	public Map<String, Object> airplaneAPISignUp(@RequestBody Map<String, Object> receiveJson) throws Exception {
 		LOGGER.info("receiveJson : {}", receiveJson);
