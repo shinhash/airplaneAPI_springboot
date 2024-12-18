@@ -35,6 +35,10 @@ public class AirplaneAPISignServiceImpl implements AirplaneAPISignService {
 	 * APSU-000 : 회원가입 성공
 	 * APSU-100 : 회원가입 실패
 	 * 
+	 * [로그인 토큰 인증]
+	 * APAT-000 : 로그인 토큰 인증 성공
+	 * APAT-100 : 로그인 토큰 인증 실패
+	 * 
 	 */
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -44,6 +48,36 @@ public class AirplaneAPISignServiceImpl implements AirplaneAPISignService {
 	
 	@Autowired
 	private AirplaneAPISignMapper airplaneAPISignMapper;
+	
+	@Override
+	public Map<String, Object> accessTokenCheck(Map<String, Object> receiveJson) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		LOGGER.info("receiveJson : {}", receiveJson);
+		
+		Map<String, String> commCdInfo = new HashMap<String, String>();
+		commCdInfo.put("commCd", "VALID");
+		commCdInfo.put("commDetailCd", "SIGN-004");
+		
+		Map<String, Object> validateResult = airplaneAPIValidation.airplaneValidation(receiveJson, commCdInfo);
+		
+		if(validateResult.get("resultCode").equals("APVR-000")) {
+			String accessToken = (String) receiveJson.get("accessToken");
+			String accessTokenSession = (String) receiveJson.get("accessTokenSession");
+			
+			if(accessTokenSession != null && !accessTokenSession.equals("") && accessTokenSession.equals(accessToken)) {
+				resultMap.put("resultCode", "APAT-000");
+				resultMap.put("resultMessage", "[signin access token auth check success]");
+			}else {
+				resultMap.put("resultCode", "APAT-100");
+				resultMap.put("resultMessage", "[signin access token auth check fail]");
+			}
+			
+		}else {
+			resultMap.put("resultCode", validateResult.get("resultCode"));
+			resultMap.put("resultMessage", validateResult.get("resultMessage"));
+		}
+		return resultMap;
+	}
 
 	@Override
 	public Map<String, Object> signIn(Map<String, Object> receiveJson) throws Exception {
@@ -169,5 +203,4 @@ public class AirplaneAPISignServiceImpl implements AirplaneAPISignService {
 		}
 		return resultMap;
 	}
-	
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.hash.airplaneAPI.airplane.api.sign.service.AirplaneAPISignService;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class AirplaneAPISignController {
@@ -19,10 +20,21 @@ public class AirplaneAPISignController {
 	@Resource(name="airplaneAPISignService")
 	private AirplaneAPISignService airplaneAPISignService;
 	
+	@PostMapping(value="/airplane/accessTokenChk")
+	public Map<String, Object> airplaneAPIAccessTokenCheck(@RequestBody Map<String, Object> receiveJson, HttpServletRequest request) throws Exception {
+		LOGGER.info("receiveJson : {}", receiveJson);
+		receiveJson.put("accessTokenSession", request.getSession().getAttribute("accessToken"));
+		Map<String, Object> accessTokenCheckResult = airplaneAPISignService.accessTokenCheck(receiveJson);
+		return accessTokenCheckResult;
+	}
+	
 	@PostMapping(value="/airplane/signin")
-	public Map<String, Object> airplaneAPISignIn(@RequestBody Map<String, Object> receiveJson) throws Exception {
+	public Map<String, Object> airplaneAPISignIn(@RequestBody Map<String, Object> receiveJson, HttpServletRequest request) throws Exception {
 		LOGGER.info("receiveJson : {}", receiveJson);
 		Map<String, Object> signInResult = airplaneAPISignService.signIn(receiveJson);
+		String accessToken = "qwer123";
+		signInResult.put("accessToken", accessToken);
+		request.getSession().setAttribute("accessToken", accessToken);
 		return signInResult;
 	}
 	
