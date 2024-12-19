@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.hash.airplaneAPI.airplane.api.myinfo.mapper.AirplaneAPIMyInfoMapper">
+
+    <select id="getMyInfo" parameterType="String" resultType="CustomMap">
+        SELECT   USER_ID
+			   , USER_NM
+			   , CAST(AES_DECRYPT(UNHEX(USER_EMAIL), 'email') AS CHAR) AS USER_EMAIL
+			   , REG_DT
+			   , UPD_DT
+			   , USE_YN
+          FROM AIRPLANE_USER_INFO
+         WHERE USER_ID = #{userId}
+    </select>
+
+    <update id="updateMyInfo" parameterType="HashMap">
+    	UPDATE AIRPLANE_USER_INFO
+    	   SET   USER_NM = #{userNm}
+    	       /* , USER_PW = UPPER(SHA2(#{userPw}, 256)) */
+    	       , USER_EMAIL = HEX(AES_ENCRYPT(#{userEmail}, 'email'))
+    	       , UPD_DT = NOW()
+    	 WHERE USER_ID = #{userId}
+    </update>
+
+</mapper>

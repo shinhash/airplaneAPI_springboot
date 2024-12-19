@@ -29,7 +29,9 @@ public class AirplaneAPIValidation {
 	 */
 	public Map<String, Object> airplaneValidation(Map<String, Object> data, Map<String, String> commCdInfo) throws Exception {
 		Map<String, Object> validateResult = new HashMap<String, Object>();
-		
+//		LOGGER.info("data : {}", data);
+//		LOGGER.info("data keys : {}", data.keySet());
+//		LOGGER.info("data get : {}", data.get("accessToken"));
 		String valRstCd = "SUCCESS";
 		StringBuffer validateResultMessage = new StringBuffer();
 		validateResultMessage.append("[");
@@ -40,7 +42,7 @@ public class AirplaneAPIValidation {
 			String commDetailCn = (String) validateMap.get("commDetailCn");
 			for(String key : data.keySet()) {
 				if(commDetailCn.equals(key) && validateMap.get("useYn").equals("Y")) {					
-					if(data.get(key).equals("")) {
+					if(data.get(key) == null || data.get(key).equals("")) {
 						valRstCd = "FAIL";
 						validateResultMessage.append(key + " value is empty, ");
 					}

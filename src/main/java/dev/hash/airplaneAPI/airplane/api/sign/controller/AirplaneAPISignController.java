@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.hash.airplaneAPI.airplane.api.sign.service.AirplaneAPISignService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class AirplaneAPISignController {
@@ -23,7 +25,9 @@ public class AirplaneAPISignController {
 	@PostMapping(value="/airplane/accessTokenChk")
 	public Map<String, Object> airplaneAPIAccessTokenCheck(@RequestBody Map<String, Object> receiveJson, HttpServletRequest request) throws Exception {
 		LOGGER.info("receiveJson : {}", receiveJson);
-		receiveJson.put("accessTokenSession", request.getSession().getAttribute("accessToken"));
+		HttpSession session = request.getSession();
+		LOGGER.info("accessTokenChk session : {}", session.getAttribute("accessTokenSession"));
+		receiveJson.put("accessTokenSession", session.getAttribute("accessTokenSession"));
 		Map<String, Object> accessTokenCheckResult = airplaneAPISignService.accessTokenCheck(receiveJson);
 		return accessTokenCheckResult;
 	}
@@ -31,10 +35,7 @@ public class AirplaneAPISignController {
 	@PostMapping(value="/airplane/signin")
 	public Map<String, Object> airplaneAPISignIn(@RequestBody Map<String, Object> receiveJson, HttpServletRequest request) throws Exception {
 		LOGGER.info("receiveJson : {}", receiveJson);
-		Map<String, Object> signInResult = airplaneAPISignService.signIn(receiveJson);
-		String accessToken = "qwer123";
-		signInResult.put("accessToken", accessToken);
-		request.getSession().setAttribute("accessToken", accessToken);
+		Map<String, Object> signInResult = airplaneAPISignService.signIn(receiveJson, request);
 		return signInResult;
 	}
 	
@@ -57,6 +58,13 @@ public class AirplaneAPISignController {
 		LOGGER.info("receiveJson : {}", receiveJson);
 		Map<String, Object> signUpResult = airplaneAPISignService.signOut(receiveJson);
 		return signUpResult;
+	}
+	
+	
+	@GetMapping(value="/dev/sessionChk")
+	public void devSessionChk(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		LOGGER.info("devSessionChk session : {}", session.getAttribute("accessTokenSession"));
 	}
 
 }

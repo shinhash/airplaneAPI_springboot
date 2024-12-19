@@ -12,6 +12,8 @@ import dev.hash.airplaneAPI.airplane.api.sign.mapper.AirplaneAPISignMapper;
 import dev.hash.airplaneAPI.airplane.api.sign.service.AirplaneAPISignService;
 import dev.hash.airplaneAPI.airplane.comm.utils.SHA256Util;
 import dev.hash.airplaneAPI.airplane.comm.validate.AirplaneAPIValidation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Service(value="airplaneAPISignService")
 public class AirplaneAPISignServiceImpl implements AirplaneAPISignService {
@@ -38,6 +40,7 @@ public class AirplaneAPISignServiceImpl implements AirplaneAPISignService {
 	 * [로그인 토큰 인증]
 	 * APAT-000 : 로그인 토큰 인증 성공
 	 * APAT-100 : 로그인 토큰 인증 실패
+	 * APAT-200 : 로그인 토큰 undefined
 	 * 
 	 */
 	
@@ -63,6 +66,8 @@ public class AirplaneAPISignServiceImpl implements AirplaneAPISignService {
 		if(validateResult.get("resultCode").equals("APVR-000")) {
 			String accessToken = (String) receiveJson.get("accessToken");
 			String accessTokenSession = (String) receiveJson.get("accessTokenSession");
+			LOGGER.info("accessToken : {}", accessToken);
+			LOGGER.info("accessTokenSession : {}", accessTokenSession);
 			
 			if(accessTokenSession != null && !accessTokenSession.equals("") && accessTokenSession.equals(accessToken)) {
 				resultMap.put("resultCode", "APAT-000");
@@ -73,14 +78,14 @@ public class AirplaneAPISignServiceImpl implements AirplaneAPISignService {
 			}
 			
 		}else {
-			resultMap.put("resultCode", validateResult.get("resultCode"));
-			resultMap.put("resultMessage", validateResult.get("resultMessage"));
+			resultMap.put("resultCode", "APAT-200");
+			resultMap.put("resultMessage", "[access token info is undefined]");
 		}
 		return resultMap;
 	}
 
 	@Override
-	public Map<String, Object> signIn(Map<String, Object> receiveJson) throws Exception {
+	public Map<String, Object> signIn(Map<String, Object> receiveJson, HttpServletRequest request) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		LOGGER.info("receiveJson : {}", receiveJson);
 		
@@ -102,6 +107,12 @@ public class AirplaneAPISignServiceImpl implements AirplaneAPISignService {
 				if(inputUserPw.equals((String) userInfo.get("userPw"))) {
 					resultMap.put("resultCode", "APSI-000");
 					resultMap.put("resultMessage", "[signin success]");
+
+					HttpSession session = request.getSession();
+					session.setAttribute("accessTokenSession", session.getId());
+					session.setAttribute("accessUserId", receiveJson.get("userId"));
+					resultMap.put("accessToken", session.getId());
+					LOGGER.info("signin session : {}", session.getId());
 				}else {
 					resultMap.put("resultCode", "APSI-100");
 					resultMap.put("resultMessage", "[user password is different]");
