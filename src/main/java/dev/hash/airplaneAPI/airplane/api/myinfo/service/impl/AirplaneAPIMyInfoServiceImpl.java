@@ -62,7 +62,7 @@ public class AirplaneAPIMyInfoServiceImpl implements AirplaneAPIMyInfoService {
 			HttpSession session = request.getSession();
 			String accessToken = (String) receiveJson.get("accessToken");
 			String accessTokenSession = (String) session.getAttribute("accessTokenSession");
-			if(accessTokenSession.equals(accessToken)) {
+			if(accessTokenSession != null && accessTokenSession.equals(accessToken)) {
 				String accessUserId = (String) session.getAttribute("accessUserId");
 				LOGGER.info("accessUserId : {}", accessUserId);
 				try {

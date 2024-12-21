@@ -16,7 +16,6 @@
     <update id="updateMyInfo" parameterType="HashMap">
     	UPDATE AIRPLANE_USER_INFO
     	   SET   USER_NM = #{userNm}
-    	       /* , USER_PW = UPPER(SHA2(#{userPw}, 256)) */
     	       , USER_EMAIL = HEX(AES_ENCRYPT(#{userEmail}, 'email'))
     	       , UPD_DT = NOW()
     	 WHERE USER_ID = #{userId}
