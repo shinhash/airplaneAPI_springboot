@@ -100,7 +100,7 @@ public class AirplaneAPIMyInfoServiceImpl implements AirplaneAPIMyInfoService {
 		Map<String, String> commCdInfo = new HashMap<String, String>();
 		commCdInfo.put("commCd", "VALID");
 		commCdInfo.put("commDetailCd", "MYIF-002");
-		
+
 		Map<String, Object> validateResult = airplaneAPIValidation.airplaneValidation(receiveJson, commCdInfo);
 		
 		if(validateResult.get("resultCode").equals("APVR-000")) {
